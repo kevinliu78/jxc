@@ -1,0 +1,5 @@
+# common
+common.distanceDays={0}d
+common.distanceHours={0}d，{1}h
+common.distanceMinutes={0}d，{1}h，{2}m
+common.distanceTimes={0}d，{1}h，{2}m，{3}s

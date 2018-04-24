@@ -1,0 +1,5 @@
+# common
+common.distanceDays={0}天
+common.distanceHours={0}天，{1}小时
+common.distanceMinutes={0}天，{1}小时，{2}分
+common.distanceTimes={0}天，{1}小时，{2}分，{3}秒

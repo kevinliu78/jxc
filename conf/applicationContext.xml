@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd" 
+		default-lazy-init="true" default-destroy-method="destroy" default-autowire="byName">
+    <description>Spring Context</description>
+
+    <context:component-scan base-package="com.nms,com.pbn,controllers,models">
+        <context:exclude-filter type="regex" expression=".util.*"/>
+    </context:component-scan>
+
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    
+    <bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <constructor-arg>
+          <bean class="com.zaxxer.hikari.HikariConfig">
+              <property name="poolName" value="springHikariCP" />
+              <property name="driverClassName" value="${db.default.driver}"/>
+              <property name="jdbcUrl" value="${db.default.url}"/>
+              <property name="username" value="${db.default.user}"/>
+              <property name="password" value="${db.default.password}"/>
+              <!-- 连接只读数据库时配置为true， 保证安全 -->
+              <property name="readOnly" value="false" />
+              <!-- 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count) -->
+              <property name="maximumPoolSize" value="400" />
+              <!--等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒-->
+              <property name="connectionTimeout" value="30000"/>
+              <!-- 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:1800000=30分钟，
+              建议设置比数据库超时时长少30秒，
+              参考MySQL wait_timeout参数（show variables like '%timeout%';） -->
+              <property name="maxLifetime" value="1800000" />
+              <!-- 一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:60000=10分钟 -->
+              <property name="idleTimeout" value="600000" />
+              <property name="dataSourceProperties">
+                  <props>
+                      <prop key="cachePrepStmts">true</prop>
+                      <prop key="useServerPrepStmts">true</prop>
+                      <prop key="prepStmtCacheSize">250</prop>
+                      <prop key="prepStmtCacheSqlLimit">2048</prop>
+                      <prop key="useUnicode">true</prop>
+                      <prop key="characterEncoding">utf8</prop>
+                  </props>
+              </property>
+            </bean>
+        </constructor-arg>
+    </bean>
+    
+    <!--       
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">   
+        <property name="jndiName">  
+            <value>java:comp/env/jdbc/jpa_ds</value>  
+        </property>   
+    </bean>  
+     -->  
+    
+    <bean id="entityManagerFactory"  class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">  
+        <property name="persistenceUnitName" value="${jpa.default}" />
+        <property name="dataSource" ref="hikariDataSource" />  
+        <property name="jpaVendorAdapter">  
+            <bean  
+                class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">  
+                <property name="generateDdl" value="true" />  
+            </bean>  
+        </property>
+        <property name="packagesToScan">
+            <array>
+                <value>com.nms.**.bean</value>
+                <value>com.pbn.**.bean</value>
+                <value>models</value>
+            </array>
+        </property>  
+        <property name="jpaPropertyMap">
+            <map>                
+                <!-- <entry key="hibernate.query.substitutions" value="true 1, false 0" /> -->
+                <entry key="hibernate.connection.CharSet" value="UTF-8"/>
+                <entry key="hibernate.connection.characterEncoding" value="UTF-8"/>
+                <entry key="hibernate.connection.useUnicode" value="true"/>
+                <entry key="hibernate.default_batch_fetch_size" value="30" />
+                <!--<entry key="hibernate.connection.release_mode" value="after_transaction"/>-->
+                <entry key="hibernate.connection.release_mode" value="on_close"/>
+                <entry key="hibernate.generate_statistics" value="true"/>
+                <entry key="hibernate.max_fetch_depth" value="4" />
+                <entry key="hibernate.default_batch_fetch_size" value="4" />
+                <entry key="hibernate.jdbc.batch_size" value="30" />
+                <entry key="hibernate.jdbc.batch_versioned_data" value="true"/>
+                <entry key="hibernate.bytecode.use_reflection_optimizer" value="true" />
+                <entry key="hibernate.temp.use_jdbc_metadata_defaults" value="true"/>
+                <!-- create-drop、create、update、validate、none -->
+                <entry key="hibernate.hbm2ddl.auto" value="update" />
+                <entry key="hibernate.show_sql" value="false" />
+                <entry key="hibernate.format_sql" value="false" />
+                <entry key="hibernate.use_sql_comments" value="false" />
+                <entry key="hibernate.cache.use_query_cache" value="true" />
+                <entry key="hibernate.cache.use_second_level_cache" value="true" />
+                <entry key="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory" />
+                <entry key="net.sf.ehcache.configurationResourceName" value="ehcache.xml" />
+                <entry key="javax.persistence.sharedCache.mode" value="ENABLE_SELECTIVE"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">  
+        <property name="entityManagerFactory" ref="entityManagerFactory" />  
+    </bean>  
+    
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+    
+    <!-- 声明式容器事务管理 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="fetch*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="is*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="search*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="list*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="*gage" propagation="REQUIRED" read-only="true" />
+            <tx:method name="show*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="export*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="import*" propagation="REQUIRED" read-only="false" />
+            <tx:method name="add*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="create*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="insert*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="save*" propagation="REQUIRED" read-only="false" />
+            <tx:method name="merge*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="update*" propagation="REQUIRED" read-only="false" />
+            <tx:method name="put*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="del*" propagation="REQUIRED" read-only="false" />
+            <tx:method name="remove*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="use*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="count*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="ServiceMethods" expression="execution(* com..sevice..*.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="ServiceMethods" />
+    </aop:config>
+
+    <!-- 定义aspectj -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+    <aop:aspectj-autoproxy/>    
+</beans>
