@@ -14,6 +14,7 @@ resolvers ++= Seq(
 
 libraryDependencies ++= {
 Seq(
+  javaJdbc,
   javaCore,
   javaJdbc,	  
   cache,
