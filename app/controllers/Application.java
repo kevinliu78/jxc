@@ -12,8 +12,12 @@ public class Application extends Controller {
     }
     
     
-    public static Result test() {
-        return ok(test.render());
+    public static Result customer() {
+        return ok(customer.render());
+    }
+    
+    public static Result product() {
+        return ok(product.render());
     }
     
 

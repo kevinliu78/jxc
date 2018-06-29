@@ -3,3 +3,19 @@ common.distanceDays={0}d
 common.distanceHours={0}d，{1}h
 common.distanceMinutes={0}d，{1}h，{2}m
 common.distanceTimes={0}d，{1}h，{2}m，{3}s
+
+# form
+form.sign_up=注册
+form.sign_in=登录
+form.sign_out=退出
+form.username=用户名
+form.password=密码
+form.forgot_password=忘记密码？
+form.sign_ining=登录中
+form.account=个人信息
+form.modifyPsw=修改密码
+# user
+user.profile=个人信息
+
+# system title, menu
+system_title=进销存管理系统

@@ -1,0 +1,18 @@
+.sidebar {position: fixed; top: 51px; bottom: 0; left: 0; z-index: 1000; display: block; padding: 0 15px; overflow-x: hidden; overflow-y: auto; background-color: #555; }
+.nav-sidebar {margin-right: -15px; margin-left: -15px;}
+.nav-sidebar > li{border-top: 1px solid #666; border-bottom: 1px solid #333; line-height: 30px;}
+.nav-sidebar > li > a {padding-right: 15px; padding-left: 15px;color: #fff;}
+.nav-sidebar > li > a:hover{background: #444;}
+.nav-sidebar > li > a:focus{background: #555;}
+.nav-sidebar > .active > a{color: #f9464a; background-color: #444;}
+.nav-sidebar > .first{border-top: 1px solid #444;}
+.nav-sidebar > .last{border-bottom: none;}
+.nav-sidebar-label{padding-left: 5px;}
+.nav-sidebar-tool{position: absolute; bottom: 0; width: 100%; border-top: 1px solid #333;}
+.nav-sidebar-tool li{padding: 10px 15px; line-height: 20px; text-align: right;}
+.nav-sidebar-tool li span{color: #fff; cursor: pointer;}
+.nav-sidebar-tool li span:hover{color: #f9464a;}
+.main {padding: 0;}
+.main-title{height: 52px; background: #eee; border-bottom: 1px solid #ddd; line-height: 52px; font-size: 1.25em; padding-left: 15px;}
+.main-content{padding: 10px;}
+

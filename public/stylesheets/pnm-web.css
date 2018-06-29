@@ -1,0 +1,23 @@
+.chartsContainer{
+    overflow: hidden;
+}
+.chartContainer{
+    width: 200px;
+    height: 200px;
+    float: left;
+}
+.serverFieldset{
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+}
+.serverFieldset>legend{
+    font-size: 14px;
+    font-weight: 500;
+}
+#allCharts{
+    overflow-y: auto;
+}
+.form-control{
+    padding: 0px 12px;
+}

@@ -1,0 +1,15 @@
+/* login.css
+ * define login and sign up styles
+ */
+
+ /*------ Login ------*/
+.login-wrapper{height: 333px; width: 480px; border: 1px solid #e1e1e1; background: #fbfbfb; margin: auto; margin-top: 10%; box-shadow: 2px 2px 4px #eee, -2px -2px 4px #eee;}
+.login-header{height: 70px; line-height: 70px; margin: 0 20px; border-bottom: 3px solid #e1e1e1; font-size: 1.5em;}
+.login-content{margin: 5px 20px; border-top: 1px solid #e1e1e1; padding: 28px 43px; }
+.login-content input{height: 40px; width: 100%; border:1px solid #ddd; border-radius: 2px; padding-left: 36px; padding-right: 10px; background: #fff url("../images/icon_username.png") 10px center no-repeat;}
+#passwordInput{margin-top: 15px; background: #fff url("../images/icon_password.png") 10px center no-repeat;}
+#signInBtn{margin-top: 15px; height: 40px; width: 100%; border: none; background: #449d44; border-radius: 2px; color: #fff;}
+#signInBtn:hover{background: #378037;}
+.forgotPassword{display:inline-block; float: right; color: #0073ea; margin-top: 30px; font-size: 0.875em;}
+.forgotPassword:hover{color: #0073ea;}
+.signUp{display:inline-block; float: right; margin-top: 25px; margin-left: 15px;}
